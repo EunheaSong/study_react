@@ -17,5 +17,5 @@ root.render(
 /*
 import React from "react";
 import ReactDOM from "react-dom";
-React.render(<App />);
+React.render(<App />, document.getElementById("root"));
 */
