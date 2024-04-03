@@ -77,9 +77,12 @@ function Menu() {
   return (
     <main className="menu">
       <h2>Our menu</h2>
-      <Pizza />
-      <Pizza />
-      <Pizza />
+      <Pizza
+        name="Focaccia"
+        ingredients="Bread with italian olive oil and rosemary"
+        photoName="pizzas/focaccia.jpg"
+        price={100}
+      />
     </main>
   );
 }
@@ -103,12 +106,17 @@ function Footer() {
 
 // 컴포넌트 함수는 대문자로 시작해야한다.
 // 마크업 코드를 리턴해야한다. - 단, 최상위 블럭은 한개만 존재해야함.
-function Pizza() {
+function Pizza(props) {
+  console.log(props);
+
   return (
-    <div>
-      <img src="pizzas/focaccia.jpg" alt="Pizza Focacia" />
-      <h3>Focaccia</h3>
-      <p>Bread with italian olive oil and rosemary</p>
+    <div className="pizza">
+      <img src={props.photoName} alt={props.name} />
+      <div>
+        <h3>{props.name}</h3>
+        <p>{props.ingredients}</p>
+        <span>{props.price}</span>
+      </div>
     </div>
   );
 }
