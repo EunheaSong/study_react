@@ -22,7 +22,13 @@ function App() {
 }
 
 function Avatar() {
-  return <img className="avatar" src="유튜브_기본프로필_하늘색.jpg"></img>;
+  return (
+    <img
+      className="avatar"
+      src="유튜브_기본프로필_하늘색.jpg"
+      alt="basic_profile"
+    ></img>
+  );
 }
 
 function Intro() {
@@ -37,9 +43,9 @@ function Intro() {
 function SkillList() {
   return (
     <div className="skill-list">
-      <Skill color="red" name="React👍" />
-      <Skill color="green" name="JavaScript👍" />
-      <Skill color="blue" name="TypeScript👍" />
+      <Skill color="red" name="React" emoji="👍" />
+      <Skill color="green" name="JavaScript" emoji="👍" />
+      <Skill color="blue" name="TypeScript" emoji="👍" />
     </div>
   );
 }
@@ -49,6 +55,7 @@ function Skill(props) {
   return (
     <div className="skill" style={style}>
       <span>{props.name}</span>
+      <span>{props.emoji}</span>
     </div>
   );
 }
