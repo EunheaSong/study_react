@@ -81,11 +81,17 @@ function Menu() {
       <h2>Our menu</h2>
 
       {numPizzas > 0 ? (
-        <ul className="pizzas">
-          {pizzaData.map((pizza) => (
-            <Pizza pizzaObj={pizza} key={pizza.name} />
-          ))}
-        </ul>
+        <>
+          <p>
+            Authentic Italian cuisine. 6 creative dishes to choose from. All
+            from our stone oven, all organic, all delicious.
+          </p>
+          <ul className="pizzas">
+            {pizzaData.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
       ) : (
         <p>We still working on our menu. Please coms back later :)</p>
       )}
@@ -119,11 +125,11 @@ function Footer() {
   );
 }
 
-function Order(props) {
+function Order({ closeHour, openHour }) {
   return (
     <div className="order">
       <p>
-        We're open until until {props.closeHour}:00. Come visit us or order
+        We're open from {openHour}:00 to {closeHour}:00. Come visit us or order
         online.
       </p>
       <button className="btn">Order</button>
@@ -133,19 +139,42 @@ function Order(props) {
 
 // 컴포넌트 함수는 대문자로 시작해야한다.
 // 마크업 코드를 리턴해야한다. - 단, 최상위 블럭은 한개만 존재해야함.
-function Pizza(props) {
-  console.log(props);
+function Pizza({ pizzaObj }) {
+  console.log(pizzaObj);
 
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h3>{props.pizzaObj.name}</h3>
-        <p>{props.pizzaObj.ingredients}</p>
-        <span>{props.pizzaObj.price}</span>
+        <h3>{pizzaObj.name}</h3>
+        <p>{pizzaObj.ingredients}</p>
+        {/* {pizzaObj.soldOut ? (
+          <span>SOLD OUT</span>
+        ) : (
+          <span>{pizzaObj.price}</span>
+        )} */}
+        <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
       </div>
     </li>
   );
+
+  // 강의에서 동일한 조건문을 두 번 수행하길래 바꿔본 방법.
+  // let className = "pizza";
+  // let price = pizzaObj.price;
+  // if (pizzaObj.soldOut) {
+  //   price = "SOLD OUT";
+  //   className = "pizza sold-out";
+  // }
+  // return (
+  //   <li className={className}>
+  //     <img src={pizzaObj.photoName} alt={pizzaObj.name} />
+  //     <div>
+  //       <h3>{pizzaObj.name}</h3>
+  //       <p>{pizzaObj.ingredients}</p>
+  //       <span>{price}</span>
+  //     </div>
+  //   </li>
+  // );
 }
 
 // After React 18 version
