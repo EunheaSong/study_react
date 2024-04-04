@@ -88,8 +88,8 @@ function Skill({ skill }) {
   const style = { backgroundColor: skill.color };
   return (
     <div className="skill" style={style}>
+      <span>{skill.skill}</span>
       <span>
-        {skill.skill}
         {skill.level === "beginner" && "👶"}
         {skill.level === "intermediate" && "👍"}
         {skill.level === "advanced" && "💪"}
