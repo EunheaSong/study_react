@@ -12,19 +12,19 @@ export default function App() {
   // const [test] = useState({ name: "Test" });
 
   function handlePrevious() {
-    if (step > 1) setStep(step - 1);
+    if (step > 1) setStep((s) => s - 1);
 
     //BAD example
     // test.name = "Change";
   }
 
   function handleNext() {
-    if (step < 3) setStep(step + 1);
+    if (step < 3) setStep((s) => s + 1);
   }
 
   return (
     <>
-      <div className="close" onClick={() => setIsOpen(!isOpen)}>
+      <div className="close" onClick={() => setIsOpen((is) => !is)}>
         &times; {/* HTML 특수문자 코드 */}
       </div>
       {isOpen && (
