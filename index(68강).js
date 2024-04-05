@@ -10,30 +10,34 @@ export default function App() {
 }
 
 function Counter() {
-  const today = new Date();
   const [step, setStep] = useState(0);
   const [count, setCount] = useState(0);
 
+  const today = new Date();
+  date.setDate(date.getDate() + count);
+
   return (
-    <>
+    <div>
       <div>
         <button onClick={() => setStep((s) => s - 1)}>-</button>
-        Step: {step}
+        <span>Step: {step}</span>
         <button onClick={() => setStep((s) => s + 1)}>+</button>
       </div>
       <div>
         <button onClick={() => setCount((c) => c - step)}>-</button>
-        Count: {count}
+        <span>Count: {count}</span>
         <button onClick={() => setCount((c) => c + step)}>+</button>
       </div>
-      {count != 0 ? (
-        <p>
-          {count} days {count > 0 ? "from today is " : "ago was "}
-          {new Date(today.setMonth(today.getDate() + count)).toDateString()}
-        </p>
-      ) : (
-        <p>Today is {new Date().toDateString()}</p>
-      )}
-    </>
+      <p>
+        {count === 0 ? (
+          <span>Today is {today.toDateString()}</span>
+        ) : (
+          <span>
+            {count} days {count > 0 ? "from today is " : "ago was "}
+            {today.toDateString()}
+          </span>
+        )}
+      </p>
+    </div>
   );
 }
