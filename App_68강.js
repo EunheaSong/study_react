@@ -1,7 +1,6 @@
 import { useState } from "react";
-import "./styles.css";
 
-export default function App() {
+export default function App_68강() {
   return (
     <div className="App">
       <Counter />
