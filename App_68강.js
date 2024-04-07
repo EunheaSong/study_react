@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./styles_68_79강.css";
 
 export default function App_68강() {
   return (
