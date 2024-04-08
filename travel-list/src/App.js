@@ -6,11 +6,19 @@ const initialItems = [
 ];
 
 export default function App() {
+  const [items, setItems] = useState([]);
+
+  function handleAddItems(item) {
+    //useState 가 const 로 선언되어있기 때문에 items 안에 add 하는 행위는 할 수 없다.
+    //새 배열을 만들어서 대체해주어야한다.
+    setItems((item) => [...items, item]);
+  }
+
   return (
     <div className="app">
       <Logo />
-      <Form />
-      <PackingList />
+      <Form onAddItems={handleAddItems} />
+      <PackingList items={items} />
       <Stats />
     </div>
   );
@@ -20,16 +28,9 @@ function Logo() {
   return <h1>🏝️ Far Away 🧳</h1>;
 }
 
-function Form() {
+function Form({ onAddItems }) {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [items, setItems] = useState([]);
-
-  function handleAddItems(item) {
-    //useState 가 const 로 선언되어있기 때문에 items 안에 add 하는 행위는 할 수 없다.
-    //새 배열을 만들어서 대체해주어야한다.
-    setItems((item) => [...items, item]);
-  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -39,7 +40,7 @@ function Form() {
     const newItem = { description, quantity, packed: false, id: 3 };
     console.log(newItem);
 
-    handleAddItems(newItem);
+    onAddItems(newItem);
 
     setDescription("");
     setQuantity(1);
@@ -74,11 +75,11 @@ function Form() {
   );
 }
 
-function PackingList() {
+function PackingList({ items }) {
   return (
     <div className="list">
       <ul>
-        {initialItems.map((item) => (
+        {items.map((item) => (
           <Item item={item} key={item.id} />
         ))}
       </ul>
