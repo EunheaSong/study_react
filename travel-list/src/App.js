@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 const initialItems = [
-  { id: 1, description: "Passports", quantity: 2, packed: false },
+  { id: 1, description: "Passports", quantity: 2, packed: true },
   { id: 2, description: "Socks", quantity: 12, packed: false },
 ];
 
@@ -23,6 +23,14 @@ function Logo() {
 function Form() {
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState(1);
+  const [items, setItems] = useState([]);
+
+  function handleAddItems(item) {
+    //useState 가 const 로 선언되어있기 때문에 items 안에 add 하는 행위는 할 수 없다.
+    //새 배열을 만들어서 대체해주어야한다.
+    setItems((item) => [...items, item]);
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -30,6 +38,8 @@ function Form() {
 
     const newItem = { description, quantity, packed: false, id: 3 };
     console.log(newItem);
+
+    handleAddItems(newItem);
 
     setDescription("");
     setQuantity(1);
