@@ -1,4 +1,4 @@
-import "./styles.css";
+import "./styles_89강.css";
 import { useState } from "react";
 
 const faqs = [
