@@ -20,7 +20,9 @@ export default function App() {
 
   function handleToggleItem(id) {
     setItems((items) =>
-      items.map((item) => (item.id === id ? { ...item, packed: true } : item))
+      items.map((item) =>
+        item.id === id ? { ...item, packed: !item.packed } : item
+      )
     );
   }
   return (
@@ -32,7 +34,7 @@ export default function App() {
         onDeletedItems={handleDeletedItems}
         onToggleItems={handleToggleItem}
       />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -121,10 +123,36 @@ function Item({ item, onDeletedItems, onToggleItems }) {
   );
 }
 
-function Stats() {
+function Stats({ items }) {
+  if (!items.length)
+    return (
+      <footer className="stats">
+        <em>Start adding sone items to your packing list 🚀</em>
+      </footer>
+    );
+  const numItems = items.length;
+  const numPacked = items.filter((item) => item.packed).length;
+  // 소숫점을 제거하기 위해 Math.round()를 사용해준다.
+  const percentage = Math.round((numPacked / numItems) * 100);
   return (
-    <div className="stats">
-      🌴 You have X items on your list, and you already packed X (X%)
-    </div>
+    <footer className="stats">
+      {percentage === 100 ? (
+        <em>You got everything! Ready to go ✈️</em>
+      ) : (
+        <em>
+          🌴 You have {numItems} items on your list, and you already packed
+          {numPacked} ({percentage}%)
+        </em>
+      )}
+      {/* 또는 
+      <em>
+         {percentage === 100
+            ? "You got everything! Ready to go ✈️"
+            : `🌴 You have ${numItems} items on your list, and you already packed ${numPacked} (${percentage}%)`
+         }
+      </em>
+      이렇게도 할 수 있다.
+      */}
+    </footer>
   );
 }
