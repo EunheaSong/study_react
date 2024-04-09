@@ -21,17 +21,19 @@ export default function App() {
   function handleToggleItem(id) {
     setItems((items) =>
       items.map((item) =>
+        //map을 돌면서 id 가 같은게 나오면, 지금까지 돈 item 리스트 뒤로 붙일껀데, packed를 변경해서 붙여라.
         item.id === id ? { ...item, packed: !item.packed } : item
       )
     );
   }
+
   return (
     <div className="app">
       <Logo />
       <Form onAddItems={handleAddItems} />
       <PackingList
         items={items}
-        onDeletedItems={handleDeletedItems}
+        onDeleteItems={handleDeletedItems}
         onToggleItems={handleToggleItem}
       />
       <Stats items={items} />
@@ -98,7 +100,7 @@ function PackingList({ items, onDeletedItems, onToggleItems }) {
   if (sortBy === "input") sortedItems = items;
   else if (sortBy === "description")
     sortedItems = items
-      .slice()
+      .slice() //원본 배열에 영향을 주지 않도록, slice()하여 배열을 복사하고 새배열을 사용한다.
       .sort((a, b) => a.description.localeCompare(b.description));
   else if (sortBy === "packed")
     sortedItems = items
@@ -112,13 +114,14 @@ function PackingList({ items, onDeletedItems, onToggleItems }) {
         {sortedItems.map((item) => (
           <Item
             item={item}
-            onDeletedItems={onDeletedItems}
+            onDeleteItems={onDeletedItems}
             onToggleItems={onToggleItems}
             key={item.id}
           />
         ))}
       </ul>
       <div className="actions">
+        {/* select와 옵션은 짝꿍! */}
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
           <option value="input">SORT BY INPUT ORDER</option>
           <option value="description">SORT BY DESCRIPTION</option>
@@ -129,7 +132,7 @@ function PackingList({ items, onDeletedItems, onToggleItems }) {
   );
 }
 
-function Item({ item, onDeletedItems, onToggleItems }) {
+function Item({ item, onDeleteItems, onToggleItems }) {
   return (
     <li>
       <input
@@ -140,22 +143,26 @@ function Item({ item, onDeletedItems, onToggleItems }) {
       <span style={item.packed ? { textDecoration: "line-through" } : {}}>
         {item.quantity} {item.description}
       </span>
-      <button onClick={() => onDeletedItems(item.id)}>❌</button>
+      <button onClick={() => onDeleteItems(item.id)}>❌</button>
     </li>
   );
 }
 
 function Stats({ items }) {
+  //목록이 없을 경우, 정렬할 필요가 없기때문에 불필요한 작업을 하지 않도록하며
+  //UI적으로도 보기 좋게 메시지를 전달.
   if (!items.length)
     return (
       <footer className="stats">
         <em>Start adding sone items to your packing list 🚀</em>
       </footer>
     );
+
   const numItems = items.length;
   const numPacked = items.filter((item) => item.packed).length;
   // 소숫점을 제거하기 위해 Math.round()를 사용해준다.
   const percentage = Math.round((numPacked / numItems) * 100);
+
   return (
     <footer className="stats">
       {percentage === 100 ? (
