@@ -115,6 +115,14 @@ export default function App() {
           <WatchedSummary watched={watched} />
           <WatchedMovieList movies={watched} />
         </Box>
+        {/*
+        children props 사용하지 않고, 이렇게 element 로 삽입하는 방법도 있다
+            <Box element={ <MovieList movies={movies} />} />
+            <Box element={
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList movies={watched} />
+            } />
+      */}
       </Main>
     </>
   );
