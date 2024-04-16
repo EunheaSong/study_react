@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const containerStyle = {
   display: "flex",
@@ -10,6 +11,16 @@ const starContainerStyle = {
   display: "flex",
 };
 
+StarRating.propTypes = {
+  maxRating: PropTypes.number,
+  defaultRating: PropTypes.number,
+  color: PropTypes.string,
+  size: PropTypes.number,
+  message: PropTypes.array,
+  className: PropTypes.string,
+  onSetRating: PropTypes.func,
+};
+
 //props 의 기본 값을 지정할 수 있다.
 export default function StarRating({
   maxRating = 5,
@@ -17,6 +28,7 @@ export default function StarRating({
   size = 48,
   className = "", //동적으로 스타일을 변경할 수 있게한다.
   message = [],
+  defaultRating = 0,
   onSetRating,
 }) {
   const [rating, setRating] = useState(0);
@@ -31,7 +43,7 @@ export default function StarRating({
 
   function handleRating(rating) {
     setRating(rating);
-    onSetRating(rating);
+    onSetRating && onSetRating(rating);
   }
 
   return (
