@@ -65,8 +65,51 @@ function TabContent({ item }) {
   const [showDetails, setShowDetails] = useState(true);
   const [likes, setLikes] = useState(0);
 
+  /*
+  랜더링이 됨을 확인 해보는 콘솔 로그.
+  handleUndo() 를 통해 테스트를 진행하고 있다.
+  showDetails 와 likes 가 기본값일 경우 해당 로그는 출력되지 않는 것을 확인할 수 있다.
+  -> 변경사항이 없기 때문에 재렌더링을 하지 않기 때문!
+  -> console.log(likes) 만 출력된다.
+  */
+
+  console.log("RENDER");
+
   function handleInc() {
     setLikes(likes + 1);
+  }
+
+  function hanleTripleInc() {
+    /*
+     이런 방식은 아무리 많이 set함수를 호출하더라도 +1 밖에 되지 않음. 
+     상태값 업데이트가 한 번에 이루어지기 때문에, 
+     3번의 setLikes()가 끝나야 likes 의 값이 바뀌기 때문인다.
+     결국 3번의 setLikes(likes + 1) 에서 likes 는 모두 기존값일 것.
+    */
+    // setLikes(likes + 1);
+    // setLikes(likes + 1);
+    // setLikes(likes + 1);
+
+    // 중요 !!! 기존값을 사용해야하는 경우,
+    // 꼭 콜백 함수를 사용해서 업데이트 해주자!
+    setLikes((likes) => likes + 1);
+    setLikes((likes) => likes + 1);
+    setLikes((likes) => likes + 1);
+  }
+
+  function handleUndo() {
+    setShowDetails(true);
+    setLikes(0);
+    /*
+    상태 업데이트가 비동기로 동작.
+    set 함수 이후에 like의 갯수를 조회하면 0 이 나올 것 같지만, 
+    초기화 되기 전의 값이 출력되는 것을 확인 할 수 있다. 
+    */
+    console.log(likes);
+  }
+
+  function handleUndoLater() {
+    setTimeout(handleUndo, 2000);
   }
 
   return (
@@ -82,13 +125,13 @@ function TabContent({ item }) {
         <div className="hearts-counter">
           <span>{likes} ❤️</span>
           <button onClick={handleInc}>+</button>
-          <button>+++</button>
+          <button onClick={hanleTripleInc}>+++</button>
         </div>
       </div>
 
       <div className="tab-undo">
-        <button>Undo</button>
-        <button>Undo in 2s</button>
+        <button onClick={handleUndo}>Undo</button>
+        <button onClick={handleUndoLater}>Undo in 2s</button>
       </div>
     </div>
   );
